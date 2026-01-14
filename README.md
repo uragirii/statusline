@@ -20,6 +20,8 @@ bun run build
 
 This will create a bundled JavaScript file at `./dist/statusline.js` (~6KB).
 
+> **Note:** We compile to JavaScript rather than a standalone binary. Benchmarks showed nearly identical performance (~20ms execution time for both), but the JS file is 6KB vs 57MB for the binary. The JS version is also faster with large contexts and easier to maintain.
+
 ## Deploying to Claude
 
 Deploy the built file to your Claude user-scripts directory:
