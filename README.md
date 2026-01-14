@@ -2,6 +2,8 @@
 
 A TypeScript-based statusline script for Claude Code that displays git branch, model info, context usage, cost, and duration.
 
+![Statusline Screenshot](screenshot/screenshot.png)
+
 ## Installation
 
 Install dependencies:
