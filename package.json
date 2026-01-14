@@ -1,0 +1,13 @@
+{
+  "name": "statusline",
+  "private": true,
+  "scripts": {
+    "build": "bun build ./index.ts --compile --outfile ./dist/statusline"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
