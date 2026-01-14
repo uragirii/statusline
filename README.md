@@ -12,36 +12,40 @@ bun install
 
 ## Building
 
-Build the statusline binary using Bun:
+Build the statusline JavaScript file using Bun:
 
 ```bash
 bun run build
 ```
 
-This will create a compiled executable at `./dist/statusline`.
+This will create a bundled JavaScript file at `./dist/statusline.js` (~6KB).
 
-## Symlinking to Claude Folder
+## Deploying to Claude
 
-After building, symlink the compiled binary to your Claude configuration directory:
-
-### macOS/Linux
+Deploy the built file to your Claude user-scripts directory:
 
 ```bash
-# Find your Claude config directory (usually ~/.claude/)
-mkdir -p ~/.claude/
-
-# Create symlink
-ln -sf "$(pwd)/dist/statusline" ~/.claude/statusline
-
-# Make it executable (if needed)
-chmod +x ~/.claude/statusline
+bun run deploy
 ```
 
-### Verify the symlink
+This will:
+1. Build the TypeScript code into JavaScript
+2. Copy it to `~/.claude/user-scripts/statusline.js`
+3. Make it executable
+4. Confirm the update
 
-```bash
-ls -la ~/.claude/statusline
-# Should show: ~/.claude/statusline -> /path/to/this/repo/dist/statusline
+### Manual Setup
+
+If needed, you can manually configure Claude to use the statusline:
+
+1. Update `~/.claude/settings.json`:
+```json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "bun ~/.claude/user-scripts/statusline.js"
+  }
+}
 ```
 
 ## Testing
@@ -49,7 +53,7 @@ ls -la ~/.claude/statusline
 Test the statusline with sample JSON input:
 
 ```bash
-echo '{"model":{"id":"claude-sonnet-4-5","display_name":"Sonnet 4.5"},"workspace":{"current_dir":"'$(pwd)'","project_dir":"'$(pwd)'"},"context_window":{"total_input_tokens":5000,"total_output_tokens":1000,"context_window_size":200000,"current_usage":{"input_tokens":4000,"output_tokens":800,"cache_creation_input_tokens":500,"cache_read_input_tokens":300}},"output_style":{"name":"normal"},"cost":{"total_cost_usd":0.15,"total_duration_ms":45000}}' | ./dist/statusline
+echo '{"model":{"id":"claude-sonnet-4-5","display_name":"Sonnet 4.5"},"workspace":{"current_dir":"'$(pwd)'","project_dir":"'$(pwd)'"},"context_window":{"total_input_tokens":5000,"total_output_tokens":1000,"context_window_size":200000,"current_usage":{"input_tokens":4000,"output_tokens":800,"cache_creation_input_tokens":500,"cache_read_input_tokens":300}},"output_style":{"name":"normal"},"cost":{"total_cost_usd":0.15,"total_duration_ms":45000}}' | bun ./dist/statusline.js
 ```
 
 ## Development
@@ -69,7 +73,7 @@ The codebase is organized as follows:
 After making changes:
 
 1. Run `bun run build` to rebuild
-2. The symlink will automatically use the updated binary
+2. Run `bun run deploy` to deploy to Claude user-scripts
 
 ## Features
 

@@ -2,7 +2,8 @@
   "name": "statusline",
   "private": true,
   "scripts": {
-    "build": "bun build ./index.ts --compile --outfile ./dist/statusline"
+    "build": "bun build ./index.ts --outfile ./dist/statusline.js --target=bun",
+    "deploy": "bun run build && cp ./dist/statusline.js ~/.claude/user-scripts/statusline.js && chmod +x ~/.claude/user-scripts/statusline.js && echo 'Statusline updated'"
   },
   "devDependencies": {
     "@types/bun": "latest"
