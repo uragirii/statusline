@@ -1,21 +1,11 @@
-import { colors, PRICING } from "../constants";
+import { colors } from "../constants";
 import type { StatusLineInput } from "../types";
 
 /**
- * Calculate session cost based on model pricing
+ * Format session cost from stdin data
  */
 export const calculateCost = (data: StatusLineInput): string => {
-  const { total_input_tokens, total_output_tokens } = data.context_window;
-  const modelId = data.model.id;
-
-  // Pricing per million tokens
-  const isOpus = modelId.includes("opus");
-  const inputPrice = isOpus ? PRICING.opus.input : PRICING.default.input;
-  const outputPrice = isOpus ? PRICING.opus.output : PRICING.default.output;
-
-  const cost =
-    (total_input_tokens / 1_000_000) * inputPrice +
-    (total_output_tokens / 1_000_000) * outputPrice;
+  const cost = data.cost?.total_cost_usd ?? 0;
 
   let costText = cost < 0.01 ? "<$0.01" : `$${cost.toFixed(2)}`;
 
